@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday!</title>
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      --card-bg: rgba(255, 255, 255, 0.07);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --accent-color: #f43f5e;
+      --accent-glow: rgba(244, 63, 94, 0.4);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* --- NEW: PHOTO BACKGROUND LAYER --- */
+    .bg-photo {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      background-image: url('your-photo.jpg'); /* CHANGE THIS */
+      background-size: cover;
+      background-position: center;
+      filter: blur(6px) brightness(0.5);
+      opacity: 0.6;
+    }
+    .bg-photo::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 27, 75, 0.85) 100%);
+    }
+
+    .bg-sparkles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .sparkle {
+      position: absolute;
+      display: block;
+      width: 8px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      animation: float 8s infinite ease-in-out;
+    }
+
+    .sparkle:nth-child(1) { left: 10%; width: 12px; height: 12px; animation-duration: 7s; }
+    .sparkle:nth-child(2) { left: 30%; animation-duration: 9s; animation-delay: 1s; }
+    .sparkle:nth-child(3) { left: 50%; width: 10px; height: 10px; animation-duration: 6s; animation-delay: 2s; }
+    .sparkle:nth-child(4) { left: 70%; animation-duration: 10s; animation-delay: 0.5s; }
+    .sparkle:nth-child(5) { left: 85%; width: 14px; height: 14px; animation-duration: 8s; animation-delay: 3s; }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) scale(0); opacity: 0; }
+      50% { opacity: 0.8; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      max-width: 420px;
+      width: 100%;
+      border-radius: 24px;
+      padding: 32px 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(244, 63, 94, 0.15);
+      color: var(--accent-color);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* --- NEW: PROFILE PHOTO IN CARD --- */
+    .profile-wrap {
+      width: 110px;
+      height: 110px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(to right, #ffffff, #f43f5e);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    .profile-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+      border: 3px solid #0f172a;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      font-weight: 800;
+      background: linear-gradient(to right, #ffffff, #f43f5e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .music-card {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .music-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      text-align: left;
+    }
+
+    .disc {
+      width: 44px;
+      height: 44px;
+      background: #27272a;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid var(--accent-color);
+      box-shadow: 0 0 10px var(--accent-glow);
+      font-size: 1.2rem;
+    }
+
+    .track-details { flex: 1; overflow: hidden; }
+    .track-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .track-artist { font-size: 0.78rem; color: var(--text-muted); }
+
+    audio { width: 100%; height: 36px; border-radius: 8px; outline: none; }
+
+    .btn {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 14px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px var(--accent-glow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn:active { transform: scale(0.98); }
+
+    .hidden-message {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      text-align: left;
+      margin-top: 0;
+    }
+    .hidden-message.show {
+      max-height: 300px;
+      opacity: 1;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .hidden-message p {
+      color: #e2e8f0;
+      line-height: 1.6;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-photo"></div>
+
+  <div class="bg-sparkles">
+    <span class="sparkle"></span>
+    <span class="sparkle"></span>
+    <span class="sparkle"></span>
+    <span class="sparkle"></span>
+    <span class="sparkle"></span>
+  </div>
+
+  <div class="container">
+    <span class="badge">Special Day</span>
+
+    <div class="profile-wrap">
+      <img src="WhatsApp Image 2026-09-01 at 21.58.14.jpeg" alt="Birthday Person">
+    </div>
+
+    <h1>Happy Birthday! 🎉</h1>
+    <p class="subtitle">Wishing you the happiest birthday.</p>
+
+    <div class="music-card">
+      <div class="music-info">
+        <div class="disc">🎵</div>
+        <div class="track-details">
+          <div class="track-artist">Press play below</div>
+        </div>
+      </div>
+      <audio controls>
+        <source src="Samthing_Soweto_-_Happy_Birthday_CeeNaija.com_.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+
+    <button class="btn" onclick="toggleNote()">Open Birthday Note ✨</button>
+
+    <div class="hidden-message" id="birthdayNote">
+      <p>Hey,</p>
+      <p>I wanted to make something unique to wish you a happy birthday. Even though we’re just getting started, getting to know you has been the best part of my recent days.</p>
+      <p>Hope today brings you as much joy as you bring to everyone around you!</p>
+    </div>
+  </div>
+
+  <script>
+    function toggleNote() {
+      const note = document.getElementById('birthdayNote');
+      note.classList.toggle('show');
+    }
+  </script>
+
+</body>
+</html>
